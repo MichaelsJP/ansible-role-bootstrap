@@ -1,0 +1,7 @@
+---
+- name: Disable IPv6
+  template:
+    src: 10-disable-ipv6.j2
+    dest: /etc/sysctl.d/10-disable-ipv6.conf
+    mode: a+x
+  notify: run sysctl

@@ -1,0 +1,10 @@
+- name: Copy pip requirements
+  copy:
+    mode: 0666
+    src: "{{ role_path }}/files/python_req.txt"
+    dest: /tmp/python_req.txt
+
+- name: Install pip dependencies
+  pip:
+    requirements: /tmp/python_req.txt
+    state: forcereinstall

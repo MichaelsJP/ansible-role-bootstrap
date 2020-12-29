@@ -1,0 +1,22 @@
+- name: Gather hcloud server infos
+  hcloud_server_info:
+    api_token: "{{ HCLOUD_TOKEN }}"
+    name: "{{ ansible_hostname }}"
+  when: HCLOUD_TOKEN is defined
+  register: hetzner_server_facts
+
+- name: Set Hetzner Facts
+  set_fact:
+    HETZNER_FACT_BACKUP_WINDOW: "{{ hetzner_server_facts.hcloud_server_info[0].backup_window | default('') }}"
+    HETZNER_FACT_DATACENTER: "{{ hetzner_server_facts.hcloud_server_info[0].datacenter | default('') }}"
+    HETZNER_FACT_SERVER_ID: "{{ hetzner_server_facts.hcloud_server_info[0].id | default('') }}"
+    HETZNER_FACT_ipv4: "{{ hetzner_server_facts.hcloud_server_info[0].ipv4_address | default('') }}"
+    HETZNER_FACT_ipv6: "{{ hetzner_server_facts.hcloud_server_info[0].ipv6 | default('') }}"
+    HETZNER_FACT_LABELS: "{{ hetzner_server_facts.hcloud_server_info[0].labels | default('') }}"
+    HETZNER_FACT_LOCATION: "{{ hetzner_server_facts.hcloud_server_info[0].location | default('') }}"
+    HETZNER_FACT_SERVER_NAME: "{{ hetzner_server_facts.hcloud_server_info[0].name | default('') }}"
+    HETZNER_FACT_RECUE_ENABLED: "{{ hetzner_server_facts.hcloud_server_info[0].rescue_enabled | default('') }}"
+    HETZNER_FACT_SERVER_TYPE: "{{ hetzner_server_facts.hcloud_server_info[0].server_type | default('') }}"
+    HETZNER_FACT_STATUS: "{{ hetzner_server_facts.hcloud_server_info[0].status | default('') }}"
+    cacheable: yes
+  when: hetzner_server_facts is defined
