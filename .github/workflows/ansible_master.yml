@@ -1,11 +1,13 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Ansible Role Bootstrap Test
+name: Ansible Role Bootstrap Build
 
 on:
-  pull_request:
-    branches: [ '**' ]
+  push:
+    branches: [ 'main' ]
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
   lint:
@@ -50,3 +52,13 @@ jobs:
         with:
           image: ${{ matrix.config.image }}
           tag: ${{ matrix.config.tag }}
+  release:
+    needs:
+      - lint
+      - molecule
+    runs-on: ubuntu-20.04
+    steps:
+      - name: galaxy
+        uses: robertdebock/galaxy-action@1.1.0
+        with:
+          galaxy_api_key: ${{ secrets.galaxy_api_key }}
