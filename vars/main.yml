@@ -11,7 +11,8 @@ _bootstrap_packages:
   Amazon: python sudo git
   CentOS_7: python sudo git
   Debian_8: python sudo gnupg git
-  Debian_9: python sudo gnupg git
+  Debian_9: python-apt python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python-setuptools python-pip cron dnsutils build-essential
+  Debian_10: python-apt python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python-setuptools cron dnsutils build-essential
   RedHat_7: python sudo git
 
 _bootstrap_install:
