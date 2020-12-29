@@ -3,7 +3,6 @@ MichaelsJP ansible-role-bootstrap
 ![Build](https://github.com/MichaelsJP/ansible-role-bootstrap/workflows/Ansible%20Role%20Bootstrap%20Build/badge.svg)
 
 - [MichaelsJP ansible-role-bootstrap](#michaelsjp-ansible-role-bootstrap)
-  * [Status](#status)
   * [Introduction](#introduction)
   * [Requirements](#requirements)
   * [Role Tags](#role-tags)
