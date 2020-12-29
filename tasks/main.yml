@@ -1,0 +1,43 @@
+---
+# tasks file for bootstrap
+- name: include assert.yml
+  include_tasks: bootstrap_assert.yml
+  tags:
+    - always
+
+- name: Bootstrap the absolut base
+  become: yes
+  import_tasks: bootstrap_base.yml
+  tags:
+    - always
+
+- name: Bootstrap ipv6 settings
+  become: yes
+  import_tasks: disable_ipv6.yml
+  tags:
+    - bootstrap_ipv6
+
+- name: Bootstrap Hetzner utils
+  become: yes
+  import_tasks: bootstrap_hc_utils.yml
+  tags:
+    - bootstrap_hetzner_utils
+
+- name: Bootstrap node python/pip dependencies
+  become: yes
+  import_tasks: bootstrap_pip.yml
+  tags:
+    - bootstrap_pip
+
+- name: Bootstrap rsyslog logging
+  become: yes
+  import_tasks: rsyslog.yml
+  tags:
+    - bootstrap_rsyslog
+
+- name: Gather hcloud Facts
+  become: yes
+  import_tasks: hcloud_facts.yml
+  when: HCLOUD_TOKEN is defined and HCLOUD_TOKEN|length > 0
+  tags:
+    - bootstrap_hetzner_facts

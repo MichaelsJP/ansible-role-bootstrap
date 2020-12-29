@@ -1,0 +1,56 @@
+---
+- name: uninstall conflicting systemd-logger
+  package:
+    name: systemd-logger
+    state: absent
+
+- name: install rsyslog
+  package:
+    name: "{{ rsyslog_packages }}"
+    state: "{{ rsyslog_package_state }}"
+
+- name: configuring default rsyslog
+  template:
+    src: "{{ rsyslog_config_file_format }}_rsyslog.conf.j2"
+    dest: /etc/rsyslog.conf
+    mode: "0644"
+  when:
+    - rsyslog_deploy_default_config
+  notify:
+    - restart rsyslog
+
+- name: make configuration directory
+  file:
+    name: /etc/rsyslog.d/
+    state: directory
+    mode: "0755"
+
+- name: configuring {{ rsyslog_forward_rule_name }} rsyslog forward rule
+  template:
+    src: "forward_rule.conf.j2"
+    dest: /etc/rsyslog.d/{{ rsyslog_forward_rule_name }}.conf
+    mode: "0644"
+  when:
+    - not rsyslog_deploy_default_config
+  notify:
+    - restart rsyslog
+
+- name: start and enable rsyslog
+  service:
+    name: "{{ rsyslog_service }}"
+    state: started
+    enabled: yes
+
+- name: Make rsyslog configuration directory
+  file:
+    name: "/etc/rsyslog.d/"
+    state: directory
+    mode: "0755"
+
+- name: Copy custom iptables rsyslog config
+  template:
+    src: "00-rsyslog-iptables.j2"
+    dest: "/etc/rsyslog.d/00-rsyslog-iptables.conf"
+    mode: "0644"
+  notify:
+    - restart rsyslog

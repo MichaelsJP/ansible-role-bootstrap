@@ -1,0 +1,32 @@
+- name: Check that the hc-utils .deb exists
+  stat:
+    path: "/tmp/hc-utils_{{ bootstrap_hc_utils_version }}.deb"
+  register: hc_utils_exists
+
+- name: Download hc-utils
+  get_url:
+    url: "https://packages.hetzner.com/hcloud/deb/hc-utils_{{ bootstrap_hc_utils_version|default('', '0.0.3-1_all') }}.deb"
+    dest: /tmp/hc-utils_0.0.3-1_all.deb
+    mode: '0440'
+  when:
+    - not hc_utils_exists.stat.exists
+    - ansible_distribution in ['Debian', 'Ubuntu']
+
+- name: Check that the hc-utils .deb exists
+  stat:
+    path: "/tmp/hc-utils_{{ bootstrap_hc_utils_version }}.deb"
+  register: hc_utils_exists
+
+- name: Install hc-utils .deb
+  apt:
+    deb: "/tmp/hc-utils_{{ bootstrap_hc_utils_version }}.deb"
+  when:
+    - hc_utils_exists.stat.exists
+    - ansible_distribution in ['Debian', 'Ubuntu']
+
+- name: check if a reboot is required
+  shell: "[ -f /var/run/reboot-required ]"
+  failed_when: False
+  register: reboot_required
+  changed_when: reboot_required.rc == 0
+  notify: Reboot host
