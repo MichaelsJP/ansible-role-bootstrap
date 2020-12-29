@@ -4,8 +4,12 @@
 name: Ansible Role Bootstrap Test
 
 on:
+  push:
+    branches: [ 'main' ]
   pull_request:
     branches: [ '**' ]
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
   lint:
