@@ -1,6 +1,21 @@
 MichaelsJP ansible-role-bootstrap
 =========
+![Build](https://github.com/MichaelsJP/ansible-role-bootstrap/workflows/Ansible%20Role%20Bootstrap%20Build/badge.svg)
 
+- [MichaelsJP ansible-role-bootstrap](#michaelsjp-ansible-role-bootstrap)
+  * [Status](#status)
+  * [Introduction](#introduction)
+  * [Requirements](#requirements)
+  * [Role Tags](#role-tags)
+  * [Role Variables](#role-variables)
+  * [Dependencies](#dependencies)
+  * [Example Playbook](#example-playbook)
+  * [License](#license)
+  * [Author Information](#author-information)
+
+
+Introduction
+------------
 **Important:** Only used to provision ubuntu and debian for now.
 
 This role bootstraps basic resources.
