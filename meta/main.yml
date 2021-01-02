@@ -1,7 +1,7 @@
 ---
 galaxy_info:
-  author: Hosteq UG
-  description: Bootstrap Hosteq nodes
+  author: Julian Psotta
+  description: Bootstrap nodes
   min_ansible_version: 2.8
   license: unlicensed
   platforms:
@@ -17,6 +17,7 @@ galaxy_info:
     - bootstrap
     - hetzner
     - rsyslog
+    - iptables
 collections:
   - hetzner.hcloud
 dependencies: [ ]
