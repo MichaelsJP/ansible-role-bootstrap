@@ -12,12 +12,6 @@
 
 - name: prepare system
   block:
-    - name: test connection
-      wait_for_connection:
-        timeout: "{{ bootstrap_timeout }}"
-      register: bootstrap_connect
-      changed_when: no
-  rescue:
     - name: gather bootstrap facts
       include_tasks: "gather_facts.yml"
 
@@ -33,7 +27,7 @@
   always:
     - name: set bootstrap_ansible_user
       set_fact:
-        bootstrap_ansible_user: "{{ ansible_user | default(omit) if bootstrap_connect is succeeded else bootstrap_user }}"
+        bootstrap_ansible_user: "{{ bootstrap_user }}"
       changed_when: no
 
 - name: ensure system is prepared
@@ -41,7 +35,7 @@
     - name: gather ansible facts
       setup:
 
-    - name: install bootstrap packages
+    - name: install bootstrap packages by loop
       package:
         name: "{{ item }}"
         state: present
