@@ -31,8 +31,6 @@ Important bootstrap results:
 - Base requirements. Mainly for debian and ubuntu. # See _bootstrap_packages in vars/main.yml
 - Hetzner debian setup. Automates network setup of vms.
 - Hetzner facts cache. Facts from Hetzner are cached if needed. For the exact facts variables see below.
-- Custom Rsyslog integration
-- IPTABLES integration with rsyslog. Logging goes into /var/logs/iptables.log.
 ```
 
 Cacheable Hetzner Facts:
@@ -66,7 +64,6 @@ The base installer is always executed. It needs to be to server the correct base
 - bootstrap_ipv6 # Run the ipv6 bootstrap
 - bootstrap_hetzner_utils # Run the hetzner .deb network install
 - bootstrap_pip # Install python dependencies
-- bootstrap_rsyslog # Install Rsyslog and iptables logging file
 - bootstrap_hetzner_facts # Make hetzner server facts available
 ```
 
@@ -109,7 +106,6 @@ Apache-2.0
 Based on:
 
 ```text
-- https://github.com/robertdebock/ansible-role-rsyslog
 - https://github.com/robertdebock/ansible-role-bootstrap
 ```
 
