@@ -15,6 +15,11 @@ _bootstrap_packages:
   Debian_11: python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python3-setuptools cron dnsutils build-essential
   RedHat_7: python sudo git
 
+bootstrap_package_cache:
+  Debian:
+    raw: "LANG=C apt update"
+    stdout_regex: 'Apt cache updated'
+
 _bootstrap_install:
   Alpine:
     raw: "LANG=C apk update ; apk add {{ bootstrap_packages }}"
@@ -59,6 +64,11 @@ bootstrap_search:
 bootstrap_packages: "{{ _bootstrap_packages[bootstrap_distribution ~'_'~ bootstrap_distribution_major_version]|default(
                      _bootstrap_packages[bootstrap_distribution])|default(
                      _bootstrap_packages[bootstrap_os_family]) }}"
+
+# Map the right install command, based on gathered bootstrap facts.
+bootstrap_update_package_cache: "{{ bootstrap_package_cache[bootstrap_distribution ~'_'~ bootstrap_distribution_major_version]|default(
+                    bootstrap_package_cache[bootstrap_distribution])|default(
+                    bootstrap_package_cache[bootstrap_os_family]) }}"
 
 # Map the right install command, based on gathered bootstrap facts.
 bootstrap_install: "{{ _bootstrap_install[bootstrap_distribution ~'_'~ bootstrap_distribution_major_version]|default(
