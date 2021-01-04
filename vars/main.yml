@@ -80,6 +80,11 @@ bootstrap_facts_packages: "{{ _bootstrap_packages[ansible_distribution ~'_'~ ans
                            _bootstrap_packages[ansible_distribution])|default(
                            _bootstrap_packages[ansible_os_family]) }}"
 
+# Map the right set of packages, based on gathered ansible_facts.
+bootstrap_facts_additional_packages: "{{ additional_bootstrap_packages[ansible_distribution ~'_'~ ansible_distribution_major_version]|default(
+                           additional_bootstrap_packages[ansible_distribution])|default(
+                           additional_bootstrap_packages[ansible_os_family]) }}"
+
 # vars file for rsyslog
 
 rsyslog_packages:

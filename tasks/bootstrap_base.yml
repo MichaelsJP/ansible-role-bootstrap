@@ -43,11 +43,18 @@
     - name: gather ansible facts
       setup:
 
-    - name: install bootstrap packages by loop
+    - name: install bootstrap packages one by one
       package:
         name: "{{ item }}"
         state: present
       loop: "{{ bootstrap_facts_packages.split() }}"
+
+    - name: install additional user packages
+      package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ bootstrap_facts_additional_packages.split() }}"
+
   vars:
     ansible_user: "{{ bootstrap_ansible_user | default(omit) }}"
 

@@ -112,3 +112,12 @@
       - rsyslog_package_state is string
       - rsyslog_package_state in [ "present", "latest" ]
     quiet: yes
+
+- name: test if additional_bootstrap_packages is set correctly
+  assert:
+    that:
+      - additional_bootstrap_packages is defined
+      - additional_bootstrap_packages | type_debug == "dict"
+      - additional_bootstrap_packages.Debian is defined
+      - additional_bootstrap_packages.Ubuntu is defined
+    quiet: yes

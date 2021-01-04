@@ -54,3 +54,12 @@ rsyslog_config_file_format: advanced
 # Configure the rsyslog package to be `present`, or set to `latest` to install
 # the latest available version.
 rsyslog_package_state: present
+
+# Define additional packages to be bootstrapped. Debian and Ubuntu have to be present!
+# You have to take care yourself that the os versions have the corresponding package in the default apt sources.
+additional_bootstrap_packages:
+  Debian_11: ""
+  Debian_10: ""
+  Debian_9: ""
+  Debian: ""
+  Ubuntu: ""
