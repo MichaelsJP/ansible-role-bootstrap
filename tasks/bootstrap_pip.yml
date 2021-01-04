@@ -8,3 +8,9 @@
   pip:
     requirements: /tmp/python_req.txt
     state: forcereinstall
+
+- name: install custom pip packages
+  pip:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ additional_bootstrap_pip_packages.split() }}"

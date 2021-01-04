@@ -15,7 +15,7 @@
     - name: gather bootstrap facts
       include_tasks: "gather_facts.yml"
 
-    - name: update packages cache for debian
+    - name: update packages cache if needed
       raw: "{{ bootstrap_update_package_cache.raw }}"
       register: bootstrap_update_packages
       changed_when: (bootstrap_update_package_cache.stdout_regex not in bootstrap_update_packages.stdout and
@@ -42,12 +42,6 @@
   block:
     - name: gather ansible facts
       setup:
-
-    - name: install bootstrap packages one by one
-      package:
-        name: "{{ item }}"
-        state: present
-      loop: "{{ bootstrap_facts_packages.split() }}"
 
     - name: install additional user packages
       package:

@@ -57,9 +57,14 @@ rsyslog_package_state: present
 
 # Define additional packages to be bootstrapped. Debian and Ubuntu have to be present!
 # You have to take care yourself that the os versions have the corresponding package in the default apt sources.
+# Define the packages like "nload htop git"
 additional_bootstrap_packages:
   Debian_11: ""
   Debian_10: ""
   Debian_9: ""
   Debian: ""
   Ubuntu: ""
+
+# Define additional pip packages to be installed. They'll be installed with pip3!
+# Define the packages like "bpytop molecule"
+additional_bootstrap_pip_packages: ""
