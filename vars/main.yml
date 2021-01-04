@@ -15,6 +15,13 @@ _bootstrap_packages:
   Debian_11: python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python3-setuptools cron dnsutils build-essential
   RedHat_7: python sudo git
 
+_bootstrap_pip_packages: setuptools
+
+bootstrap_package_cache:
+  Debian:
+    raw: "LANG=C apt-get update"
+    stdout_regex: 'Apt cache updated'
+
 _bootstrap_install:
   Alpine:
     raw: "LANG=C apk update ; apk add {{ bootstrap_packages }}"
@@ -23,7 +30,7 @@ _bootstrap_install:
     raw: "LANG=C pacman -Sy --noconfirm {{ bootstrap_packages }}"
     stdout_regex: ' installing python'
   Debian:
-    raw: "LANG=C apt update && apt install -y {{ bootstrap_packages }}"
+    raw: "LANG=C apt-get update && apt-get install -y {{ bootstrap_packages }}"
     stdout_regex: ' 0 newly installed'
   Gentoo:
     raw: "LANG=C equery l {{ bootstrap_packages }} ||
@@ -40,7 +47,8 @@ _bootstrap_install:
 # https://github.com/ansible/ansible/blob/devel/lib/ansible/module_utils/facts/system/distribution.py
 bootstrap_os_family_map:
   Alpine: [ Alpine ]
-  Archlinux: [ Archlinux, Antergos, Manjaro ]
+  Archlinux: [ Archlinux, An
+                            tergos, Manjaro ]
   Debian: [ Debian, Ubuntu, Raspbian, Neon, KDE neon,
             Linux Mint, SteamOS, Devuan, Kali, 'Cumulus Linux' ]
   Gentoo: [ Gentoo, Funtoo ]
@@ -61,6 +69,11 @@ bootstrap_packages: "{{ _bootstrap_packages[bootstrap_distribution ~'_'~ bootstr
                      _bootstrap_packages[bootstrap_os_family]) }}"
 
 # Map the right install command, based on gathered bootstrap facts.
+bootstrap_update_package_cache: "{{ bootstrap_package_cache[bootstrap_distribution ~'_'~ bootstrap_distribution_major_version]|default(
+                    bootstrap_package_cache[bootstrap_distribution])|default(
+                    bootstrap_package_cache[bootstrap_os_family]) }}"
+
+# Map the right install command, based on gathered bootstrap facts.
 bootstrap_install: "{{ _bootstrap_install[bootstrap_distribution ~'_'~ bootstrap_distribution_major_version]|default(
                     _bootstrap_install[bootstrap_distribution])|default(
                     _bootstrap_install[bootstrap_os_family]) }}"
@@ -70,15 +83,7 @@ bootstrap_facts_packages: "{{ _bootstrap_packages[ansible_distribution ~'_'~ ans
                            _bootstrap_packages[ansible_distribution])|default(
                            _bootstrap_packages[ansible_os_family]) }}"
 
-# vars file for rsyslog
-
-rsyslog_packages:
-  - rsyslog
-
-rsyslog_service: rsyslog
-
-_rsyslog_work_directory:
-  default: /var/lib/rsyslog
-  Debian: /var/spool/rsyslog
-
-rsyslog_work_directory: "{{ _rsyslog_work_directory[ansible_os_family] | default (_rsyslog_work_directory['default']) }}"
+# Map the right set of packages, based on gathered ansible_facts.
+bootstrap_facts_additional_packages: "{{ additional_bootstrap_packages[ansible_distribution ~'_'~ ansible_distribution_major_version]|default(
+                           additional_bootstrap_packages[ansible_distribution])|default(
+                           additional_bootstrap_packages[ansible_os_family]) }}"

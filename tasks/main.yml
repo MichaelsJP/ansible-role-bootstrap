@@ -29,12 +29,6 @@
   tags:
     - bootstrap_pip
 
-- name: Bootstrap rsyslog logging
-  become: yes
-  import_tasks: rsyslog.yml
-  tags:
-    - bootstrap_rsyslog
-
 - name: Gather hcloud Facts
   become: yes
   import_tasks: hcloud_facts.yml

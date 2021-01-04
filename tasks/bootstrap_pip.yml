@@ -1,10 +1,19 @@
-- name: Copy pip requirements
-  copy:
-    mode: 0666
-    src: "{{ role_path }}/files/python_req.txt"
-    dest: /tmp/python_req.txt
-
-- name: Install pip dependencies
+- name: install bootstrap pip packages
   pip:
-    requirements: /tmp/python_req.txt
+    name: "{{ item }}"
     state: forcereinstall
+  loop: "{{ _bootstrap_pip_packages.split() }}"
+
+- name: install custom pip packages
+  pip:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ additional_bootstrap_pip_packages.split() }}"
+
+- name: install hetzner pip requirements
+  pip:
+    name: "hcloud"
+    state: present
+  when: HCLOUD_TOKEN is defined and HCLOUD_TOKEN|length > 0
+  tags:
+    - bootstrap_hetzner_facts
