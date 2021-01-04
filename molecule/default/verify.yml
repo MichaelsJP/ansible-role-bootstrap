@@ -16,13 +16,3 @@
         msg: The system may not be provisioned according.
       when:
         - (not ipv6_result.stat.exists)
-    - name: Fail if 00-rsyslog-iptables.conf not present
-      fail:
-        msg: The system may not be provisioned according.
-      when:
-        - (not rsyslog_log_result.stat.exists)
-    - name: Fail if /etc/rsyslog.conf not present
-      fail:
-        msg: The system may not be provisioned according.
-      when:
-        - (not rsyslog_result.stat.exists)
