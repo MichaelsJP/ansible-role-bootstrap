@@ -8,9 +8,6 @@ bootstrap_user: root
 # Do you want to wait for the host to be available?
 bootstrap_wait_for_host: no
 
-# The number of seconds you want to wait during connection test before failing.
-bootstrap_timeout: 3
-
 HCLOUD_TOKEN: [ ]
 
 # Define additional packages to be bootstrapped. Debian and Ubuntu have to be present!

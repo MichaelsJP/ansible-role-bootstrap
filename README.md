@@ -74,7 +74,6 @@ Role Variables
 - bootstrap_hc_utils_version # Set hetzner util default
 - bootstrap_user # default user to run the role
 - bootstrap_wait_for_host # Decide if ansible should wait for the host
-- bootstrap_timeout # Set custom timeout
 - HCLOUD_TOKEN # Set HETZNER Key to provision hetzner facts
 ```
 
