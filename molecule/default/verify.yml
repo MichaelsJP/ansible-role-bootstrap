@@ -11,14 +11,6 @@
       stat:
         path: /etc/sysctl.d/10-disable-ipv6.conf
       register: ipv6_result
-    - name: Check that the 00-rsyslog-iptables.j2 exists
-      stat:
-        path: /etc/rsyslog.d/00-rsyslog-iptables.conf
-      register: rsyslog_log_result
-    - name: Check that the /etc/rsyslog.conf exists
-      stat:
-        path: /etc/rsyslog.conf
-      register: rsyslog_result
     - name: Fail if 10-disable-ipv6.conf file is not present
       fail:
         msg: The system may not be provisioned according.
