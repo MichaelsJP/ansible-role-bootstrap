@@ -21,3 +21,15 @@
       - additional_bootstrap_packages.Debian is defined
       - additional_bootstrap_packages.Ubuntu is defined
     quiet: yes
+
+- name: test if additional_bootstrap_pip_packages is set correctly
+  assert:
+    that:
+      - additional_bootstrap_pip_packages is defined
+    quiet: yes
+
+- name: test if _bootstrap_pip_packages is set correctly
+  assert:
+    that:
+      - _bootstrap_pip_packages is defined
+    quiet: yes

@@ -15,9 +15,11 @@ _bootstrap_packages:
   Debian_11: python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python3-setuptools cron dnsutils build-essential
   RedHat_7: python sudo git
 
+_bootstrap_pip_packages: setuptools
+
 bootstrap_package_cache:
   Debian:
-    raw: "LANG=C apt update"
+    raw: "LANG=C apt-get update"
     stdout_regex: 'Apt cache updated'
 
 _bootstrap_install:
@@ -28,7 +30,7 @@ _bootstrap_install:
     raw: "LANG=C pacman -Sy --noconfirm {{ bootstrap_packages }}"
     stdout_regex: ' installing python'
   Debian:
-    raw: "LANG=C apt update && apt install -y {{ bootstrap_packages }}"
+    raw: "LANG=C apt-get update && apt-get install -y {{ bootstrap_packages }}"
     stdout_regex: ' 0 newly installed'
   Gentoo:
     raw: "LANG=C equery l {{ bootstrap_packages }} ||
@@ -45,7 +47,8 @@ _bootstrap_install:
 # https://github.com/ansible/ansible/blob/devel/lib/ansible/module_utils/facts/system/distribution.py
 bootstrap_os_family_map:
   Alpine: [ Alpine ]
-  Archlinux: [ Archlinux, Antergos, Manjaro ]
+  Archlinux: [ Archlinux, An
+                            tergos, Manjaro ]
   Debian: [ Debian, Ubuntu, Raspbian, Neon, KDE neon,
             Linux Mint, SteamOS, Devuan, Kali, 'Cumulus Linux' ]
   Gentoo: [ Gentoo, Funtoo ]
