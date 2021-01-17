@@ -7,12 +7,12 @@
   tasks:
     - name: check if connection still works
       ping:
-    - name: Check that the 10-disable-ipv6.j2 exists
+    - name: Check if the 10-disable-ipv6.j2 exists
       stat:
         path: /etc/sysctl.d/10-disable-ipv6.conf
       register: ipv6_result
-    - name: Fail if 10-disable-ipv6.conf file is not present
+    - name: Fail if 10-disable-ipv6.conf file is present by default
       fail:
         msg: The system may not be provisioned according.
       when:
-        - (not ipv6_result.stat.exists)
+        - ipv6_result.stat.exists
