@@ -5,3 +5,11 @@
     dest: /etc/sysctl.d/10-disable-ipv6.conf
     mode: a+x
   notify: run sysctl
+  when: bootstrap_disable_ipv6
+
+- name: Enable IPv6
+  file:
+    state: absent
+    path: /etc/sysctl.d/10-disable-ipv6.conf
+  notify: run sysctl
+  when: not bootstrap_disable_ipv6

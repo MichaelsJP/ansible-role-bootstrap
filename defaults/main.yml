@@ -1,4 +1,7 @@
 ---
+# Disable ipv6
+bootstrap_disable_ipv6: no
+
 # Hetzner utils version
 bootstrap_hc_utils_version: "0.0.3-1_all"
 

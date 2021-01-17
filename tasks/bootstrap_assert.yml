@@ -33,3 +33,10 @@
     that:
       - _bootstrap_pip_packages is defined
     quiet: yes
+
+- name: test if bootstrap_disable_ipv6 is set correctly
+  assert:
+    that:
+      - bootstrap_disable_ipv6 is defined
+      - bootstrap_disable_ipv6 | type_debug == "bool"
+    quiet: yes
