@@ -11,5 +11,7 @@
   file:
     state: absent
     path: /etc/sysctl.d/10-disable-ipv6.conf
-  notify: reload systemd
+  notify:
+    - reload systemd
+    - reexecute systemd
   when: not bootstrap_disable_ipv6

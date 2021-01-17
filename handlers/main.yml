@@ -17,7 +17,9 @@
     ansible_service_mgr == 'systemd'
 
 - name: reload systemd
-  systemd:
-    state: restarted
+  ansible.builtin.systemd:
     daemon_reload: yes
-    name: crond
+
+- name: reexecute systemd
+  ansible.builtin.systemd:
+    daemon_reexec: yes
