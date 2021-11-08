@@ -8,7 +8,7 @@
         ansible_python_interpreter: "/usr/bin/python3"
       when: ansible_facts.distribution == 'Fedora'
 
-    - name: Run the equivalent of "apt-get update && apt-get upgrade"
+    - name: Run the equivalent of "apt update && apt upgrade"
       apt:
         name: "*"
         state: latest

@@ -19,7 +19,7 @@ _bootstrap_pip_packages: setuptools
 
 bootstrap_package_cache:
   Debian:
-    raw: "LANG=C apt-get update"
+    raw: "LANG=C DEBIAN_FRONTEND=noninteractive apt update"
     stdout_regex: 'Apt cache updated'
 
 _bootstrap_install:
@@ -30,7 +30,7 @@ _bootstrap_install:
     raw: "LANG=C pacman -Sy --noconfirm {{ bootstrap_packages }}"
     stdout_regex: ' installing python'
   Debian:
-    raw: "LANG=C apt-get update && apt-get install -y {{ bootstrap_packages }}"
+    raw: "LANG=C DEBIAN_FRONTEND=noninteractive apt update && LANG=C DEBIAN_FRONTEND=noninteractive apt install -y {{ bootstrap_packages }}"
     stdout_regex: ' 0 newly installed'
   Gentoo:
     raw: "LANG=C equery l {{ bootstrap_packages }} ||
