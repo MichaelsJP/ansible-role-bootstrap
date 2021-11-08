@@ -1,15 +1,10 @@
-# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
+---
 name: Ansible Role Bootstrap Build
 
 on:
-  push:
-    branches: [ 'main' ]
   pull_request:
-    branches: [ '**' ]
-  schedule:
-    - cron: '0 0 * * 0'
+    branches: [ "**" ]
+  workflow_dispatch:
 
 jobs:
   lint:
@@ -17,40 +12,70 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: Install Python 2
+      - name: Install Python
         uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install lint dependencies
+        run: |
+          pip install pre-commit yamllint
       - name: Install and run pre-commit
         uses: pre-commit/action@v2.0.0
         with:
           extra_args: --all-files
   molecule:
+    runs-on: ubuntu-20.04
     needs:
       - lint
-    runs-on: ubuntu-20.04
+    env:
+      PY_COLORS: 1
+      ANSIBLE_FORCE_COLOR: 1
     strategy:
+      fail-fast: true
       matrix:
-        config:
-          - image: "debian"
-            tag: "latest"
-          - image: "debian"
-            tag: "bullseye"
-          - image: "ubuntu"
-            tag: "latest"
-          - image: "ubuntu"
-            tag: "bionic"
-          - image: "ubuntu"
-            tag: "xenial"
+        molecule_distro:
+#          - centos:7
+          - centos:8
+#          - ubuntu:18.04
+#          - ubuntu:20.04
+#          - debian:stretch
+#          - debian:buster
     steps:
-      - name: checkout
+      - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          path: "${{ github.repository }}"
-      - name: Install Python 2
-        uses: actions/setup-python@v2
+          submodules: true
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
         with:
-          python-version: 3.8
-      - name: molecule
-        uses: robertdebock/molecule-action@2.6.8
-        with:
-          image: ${{ matrix.config.image }}
-          tag: ${{ matrix.config.tag }}
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          sudo apt install git
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
+      - name: Write ansible vault secret to file
+        run: |
+          echo $VAULT_PASS > ./passwordfile
+        env:
+          VAULT_PASS: ${{secrets.VAULT_PASS}}
+        working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
+      - name: Test with molecule
+        run: |
+          pwd
+          ls -sahl ./
+          molecule --version
+          molecule test -s bootstrap
+        env:
+          MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
+
+#      - name: Molecule
+#        uses: gofrolist/molecule-action@v2
+#        with:
+#          molecule_options: --debug --base-config molecule/node_security/molecule.yml
+#          molecule_command: test
+#          molecule_args: --scenario-name node_security
+#          molecule_working_dir: "ansible_collections/ansible_infrastructure/"
+#        env:
+#          MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
