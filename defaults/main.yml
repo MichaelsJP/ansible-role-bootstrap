@@ -22,6 +22,7 @@ additional_bootstrap_packages:
   Debian_9: ""
   Debian: ""
   Ubuntu: ""
+  RedHat: ""
 
 # Define additional pip packages to be installed. They'll be installed with pip3!
 # Define the packages like "bpytop molecule"

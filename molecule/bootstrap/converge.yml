@@ -1,6 +1,0 @@
----
-- name: Converge run all
-  hosts: all
-  gather_facts: false
-  roles:
-    - { role: michaelsjp.ansible_role_bootstrap }

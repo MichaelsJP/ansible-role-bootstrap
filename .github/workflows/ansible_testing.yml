@@ -73,7 +73,7 @@ jobs:
           pwd
           ls -sahl ./
           poetry run molecule --version
-          poetry run molecule test -s bootstrap
+          poetry run molecule test -s default
         env:
           MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
 
