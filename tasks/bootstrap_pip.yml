@@ -2,6 +2,7 @@
   pip:
     name: "{{ item }}"
     state: forcereinstall
+    executable: pip3
   loop: "{{ _bootstrap_pip_packages.split() }}"
   changed_when: "'molecule-idempotence-notest' not in ansible_skip_tags"
 
@@ -9,6 +10,7 @@
   pip:
     name: "{{ item }}"
     state: present
+    executable: pip3
   loop: "{{ additional_bootstrap_pip_packages.split() }}"
 
 - name: install hetzner pip requirements

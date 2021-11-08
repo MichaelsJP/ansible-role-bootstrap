@@ -9,7 +9,7 @@ _bootstrap_packages:
   RedHat: python3 sudo git
   Suse: python3 python3-xml sudo git
   Amazon: python sudo git
-  CentOS_7: python sudo git
+  CentOS_7: python sudo git python3-setuptools python-setuptools python3 python3-devel
   Debian_9: python-apt python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python-setuptools python-pip cron dnsutils build-essential
   Debian_10: python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python3-setuptools cron dnsutils build-essential
   Debian_11: python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python3-setuptools cron dnsutils build-essential
@@ -39,6 +39,9 @@ _bootstrap_install:
   RedHat:
     raw: "LANG=C yum -y install {{ bootstrap_packages }}"
     stdout_regex: 'Nothing'
+  CentOS:
+    raw: "LANG=C yum -y install {{ bootstrap_packages }}"
+    stdout_regex: 'Nothing'
   Suse:
     raw: "LANG=C zypper -n install {{ bootstrap_packages }}"
     stdout_regex: 'Nothing'
@@ -52,7 +55,8 @@ bootstrap_os_family_map:
   Debian: [ Debian, Ubuntu, Raspbian, Neon, KDE neon,
             Linux Mint, SteamOS, Devuan, Kali, 'Cumulus Linux' ]
   Gentoo: [ Gentoo, Funtoo ]
-  RedHat: [ RedHat, Fedora, CentOS, Scientific, SLC,
+  CentOS: [ CentOS ]
+  RedHat: [ RedHat, Fedora, Scientific, SLC,
             Ascendos, CloudLinux, PSBM, OracleLinux, OVS,
             OEL, Amazon, Virtuozzo, XenServer, Alibaba, RockyLinux ]
   Suse: [ SLED, 'openSUSE Tumbleweed', 'openSUSE Leap',
