@@ -20,7 +20,7 @@ jobs:
           python-version: 3.9
       - name: Install lint dependencies
         run: |
-          pip install pre-commit yamllint
+          pip install yamllint
       - name: Install and run pre-commit
         uses: pre-commit/action@v2.0.0
         with:
