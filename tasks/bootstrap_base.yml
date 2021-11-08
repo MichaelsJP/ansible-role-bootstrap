@@ -18,7 +18,8 @@
     - name: update packages cache if needed
       raw: "{{ bootstrap_update_package_cache.raw }}"
       register: bootstrap_update_packages
-      changed_when: (bootstrap_update_package_cache.stdout_regex not in bootstrap_update_packages.stdout)
+      changed_when: ('molecule-idempotence-notest' not in ansible_skip_tags and
+                    bootstrap_update_package_cache.stdout_regex not in bootstrap_update_packages.stdout)
       vars:
         ansible_user: "{{ bootstrap_user }}"
       when:
