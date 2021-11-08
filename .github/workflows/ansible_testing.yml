@@ -60,7 +60,7 @@ jobs:
         run: |
           sudo apt install git
           python -m pip install --upgrade pip
-          poetry install
+          poetry install --no-dev
         working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
       - name: Write ansible vault secret to file
         run: |
@@ -72,8 +72,8 @@ jobs:
         run: |
           pwd
           ls -sahl ./
-          molecule --version
-          molecule test -s bootstrap
+          poetry run molecule --version
+          poetry run molecule test -s bootstrap
         env:
           MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
 
