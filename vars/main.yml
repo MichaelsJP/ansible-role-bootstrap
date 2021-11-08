@@ -54,7 +54,7 @@ bootstrap_os_family_map:
   Gentoo: [ Gentoo, Funtoo ]
   RedHat: [ RedHat, Fedora, CentOS, Scientific, SLC,
             Ascendos, CloudLinux, PSBM, OracleLinux, OVS,
-            OEL, Amazon, Virtuozzo, XenServer, Alibaba ]
+            OEL, Amazon, Virtuozzo, XenServer, Alibaba, RockyLinux ]
   Suse: [ SLED, 'openSUSE Tumbleweed', 'openSUSE Leap',
           SLES_SAP, SUSE_LINUX, SLES, openSUSE, SuSE ]
 
@@ -62,6 +62,7 @@ bootstrap_search:
   Archlinux: 'Arch Linux'
   OracleLinux: 'Oracle Linux'
   RedHat: 'Red Hat'
+  RockyLinux: 'Rocky Linux'
 
 # Map the right set of packages, based on gathered bootstrap facts.
 bootstrap_packages: "{{ _bootstrap_packages[bootstrap_distribution ~'_'~ bootstrap_distribution_major_version]|default(
