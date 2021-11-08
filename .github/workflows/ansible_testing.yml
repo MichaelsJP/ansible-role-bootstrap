@@ -36,12 +36,11 @@ jobs:
       fail-fast: true
       matrix:
         molecule_distro:
-#          - centos:7
           - centos:8
-#          - ubuntu:18.04
-#          - ubuntu:20.04
-#          - debian:stretch
-#          - debian:buster
+          - ubuntu:18.04
+          - ubuntu:20.04
+          - debian:stretch
+          - debian:buster
         poetry-version: [ 1.1.4 ]
     steps:
       - name: Checkout repo
