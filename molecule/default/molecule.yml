@@ -23,7 +23,7 @@ lint: |
 driver:
   name: docker
 platforms:
-  - name: instance
+  - name: instance1-$TOX_ENVNAME
     image: "${MOLECULE_DISTRO:-centos:8}"
     privileged: True
     volume_mounts:
