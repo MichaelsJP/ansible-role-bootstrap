@@ -72,7 +72,7 @@ jobs:
         working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
       - name: Test with molecule
         run: |
-          tox --parallel
+          poetry run tox --parallel
 
 #      - name: Molecule
 #        uses: gofrolist/molecule-action@v2
