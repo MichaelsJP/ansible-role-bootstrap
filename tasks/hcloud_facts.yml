@@ -6,7 +6,7 @@
   register: hetzner_server_facts
 
 - name: Set Hetzner Facts
-  set_fact:
+  set_fact:  # noqa var-naming
     HETZNER_FACT_BACKUP_WINDOW: "{{ hetzner_server_facts.hcloud_server_info[0].backup_window | default('') }}"
     HETZNER_FACT_DATACENTER: "{{ hetzner_server_facts.hcloud_server_info[0].datacenter | default('') }}"
     HETZNER_FACT_SERVER_ID: "{{ hetzner_server_facts.hcloud_server_info[0].id | default('') }}"

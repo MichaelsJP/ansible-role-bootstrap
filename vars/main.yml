@@ -6,10 +6,12 @@ _bootstrap_packages:
   Debian: python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python3-setuptools cron dnsutils build-essential
   Ubuntu: python-apt python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gnupg python3-setuptools python3-pip python-setuptools cron dnsutils build-essential python3-dev python3-wheel python-pip-whl
   Gentoo: python sudo gentoolkit git
-  RedHat: python3 sudo git
+  RedHat: python3 sudo git python3-setuptools python-setuptools python3 python3-devel python3-pip
   Suse: python3 python3-xml sudo git
   Amazon: python sudo git
-  CentOS_7: python sudo git
+  CentOS_7: python sudo git python3-setuptools python-setuptools python3 python3-devel
+  CentOS: python3 sudo git
+  RockyLinux: python3 sudo git
   Debian_9: python-apt python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python-setuptools python-pip cron dnsutils build-essential
   Debian_10: python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python3-setuptools cron dnsutils build-essential
   Debian_11: python3 sudo gnupg python3-apt git curl htop nload openssh-server vim gpg python3-setuptools python3-pip python3-setuptools cron dnsutils build-essential
@@ -19,7 +21,7 @@ _bootstrap_pip_packages: setuptools
 
 bootstrap_package_cache:
   Debian:
-    raw: "LANG=C apt-get update"
+    raw: "LANG=C DEBIAN_FRONTEND=noninteractive apt update"
     stdout_regex: 'Apt cache updated'
 
 _bootstrap_install:
@@ -30,7 +32,7 @@ _bootstrap_install:
     raw: "LANG=C pacman -Sy --noconfirm {{ bootstrap_packages }}"
     stdout_regex: ' installing python'
   Debian:
-    raw: "LANG=C apt-get update && apt-get install -y {{ bootstrap_packages }}"
+    raw: "LANG=C DEBIAN_FRONTEND=noninteractive apt update && LANG=C DEBIAN_FRONTEND=noninteractive apt install -y {{ bootstrap_packages }}"
     stdout_regex: ' 0 newly installed'
   Gentoo:
     raw: "LANG=C equery l {{ bootstrap_packages }} ||
@@ -52,9 +54,9 @@ bootstrap_os_family_map:
   Debian: [ Debian, Ubuntu, Raspbian, Neon, KDE neon,
             Linux Mint, SteamOS, Devuan, Kali, 'Cumulus Linux' ]
   Gentoo: [ Gentoo, Funtoo ]
-  RedHat: [ RedHat, Fedora, CentOS, Scientific, SLC,
+  RedHat: [ CentOS, RedHat, Fedora, Scientific, SLC,
             Ascendos, CloudLinux, PSBM, OracleLinux, OVS,
-            OEL, Amazon, Virtuozzo, XenServer, Alibaba ]
+            OEL, Amazon, Virtuozzo, XenServer, Alibaba, RockyLinux ]
   Suse: [ SLED, 'openSUSE Tumbleweed', 'openSUSE Leap',
           SLES_SAP, SUSE_LINUX, SLES, openSUSE, SuSE ]
 
@@ -62,6 +64,7 @@ bootstrap_search:
   Archlinux: 'Arch Linux'
   OracleLinux: 'Oracle Linux'
   RedHat: 'Red Hat'
+  RockyLinux: 'Rocky Linux'
 
 # Map the right set of packages, based on gathered bootstrap facts.
 bootstrap_packages: "{{ _bootstrap_packages[bootstrap_distribution ~'_'~ bootstrap_distribution_major_version]|default(

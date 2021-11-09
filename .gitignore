@@ -5,6 +5,10 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.env
+.venv
+venv
+env
 
 # Generated files
 .idea/**/contentModel.xml

@@ -34,3 +34,13 @@ rules:
 
 ignore: |
   .tox/
+  ./meta/exception.yml
+  ./meta/preferences.yml
+  ./molecule/default/verify.yml
+  env/
+  .env/
+  venv/
+  .venv/
+  .cache/
+  .github/
+  .ansible/
