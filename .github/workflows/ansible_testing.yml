@@ -32,20 +32,6 @@ jobs:
     env:
       PY_COLORS: 1
       ANSIBLE_FORCE_COLOR: 1
-    strategy:
-      fail-fast: true
-      matrix:
-        molecule_distro:
-          - rockylinux/rockylinux:8
-          - centos:7
-          - centos:8
-          - ubuntu:18.04
-          - ubuntu:20.04
-          - debian:11
-          - debian:10
-          - debian:9
-          - fedora:34
-        poetry-version: [ 1.1.4 ]
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -86,10 +72,7 @@ jobs:
         working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
       - name: Test with molecule
         run: |
-          poetry run molecule --version
-          poetry run molecule test -s default
-        env:
-          MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
+          tox --parallel
 
 #      - name: Molecule
 #        uses: gofrolist/molecule-action@v2
