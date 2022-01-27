@@ -71,11 +71,10 @@ jobs:
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+        working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
-      - name: Install libraries
-        run: poetry install --no-interaction
         working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
       - name: Write ansible vault secret to file
         run: |
@@ -85,10 +84,10 @@ jobs:
         working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
       - name: Test with molecule and tox
         run: |
-          tox -e $MOLECULE_DISTRO
+          poetry run tox -e $MOLECULE_DISTRO
         env:
           MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
-
+        working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
 #      - name: Molecule
 #        uses: gofrolist/molecule-action@v2
 #        with:
