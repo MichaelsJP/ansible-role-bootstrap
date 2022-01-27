@@ -68,11 +68,21 @@ jobs:
         uses: snok/install-poetry@v1
         with:
           version: ${{ matrix.poetry-version }}
-          virtualenvs-create: false
+          virtualenvs-create: true
           virtualenvs-in-project: true
           installer-parallel: true
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
       - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root --no-dev
+        working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
+      - name: Install library
+        run: poetry install --no-interaction --no-dev
         working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
       - name: Write ansible vault secret to file
         run: |
@@ -82,7 +92,7 @@ jobs:
         working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
       - name: Test with molecule and tox
         run: |
-          tox -e $MOLECULE_DISTRO
+          poetry run tox -e $MOLECULE_DISTRO
         env:
           MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
         working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
