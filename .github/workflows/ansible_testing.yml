@@ -95,6 +95,7 @@ jobs:
           poetry run tox -e $MOLECULE_DISTRO
         env:
           MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
+        working-directory: "/home/runner/work/ansible-role-bootstrap/ansible-role-bootstrap/"
 
 #      - name: Molecule
 #        uses: gofrolist/molecule-action@v2

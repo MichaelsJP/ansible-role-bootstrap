@@ -64,7 +64,6 @@ scenario:
   destroy_sequence:
     - destroy
   test_sequence:
-    - lint
     - dependency
     - destroy
     - create
