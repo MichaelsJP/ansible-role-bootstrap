@@ -15,6 +15,7 @@ cryptography = "^35.0.0"
 shade = "^1.33.0"
 docker = "^5.0.3"
 tox = "^3.24.4"
+tox-poetry = "^0.4.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
@@ -23,5 +24,5 @@ pre-commit = "^2.15.0"
 yamllint = "^1.26.3"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["setuptools >= 35.0.2", "wheel >= 0.29.0"]
 build-backend = "poetry.core.masonry.api"
